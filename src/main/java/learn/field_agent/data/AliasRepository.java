@@ -7,4 +7,6 @@ public interface AliasRepository {
     Alias add(Alias alias);
 
     boolean update(Alias alias);
+
+    boolean deleteById(int aliasId);
 }
