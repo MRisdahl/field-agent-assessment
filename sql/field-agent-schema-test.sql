@@ -100,13 +100,18 @@ delimiter //
 create procedure set_known_good_state()
 begin
 
+	
 	delete from location;
     alter table location auto_increment = 1;
     delete from agency_agent;
 	delete from agency;
 	alter table agency auto_increment = 1;
+    delete from alias;
+    alter table alias auto_increment = 1;
     delete from agent;
     alter table agent auto_increment = 1;
+    
+    
     
     insert into agency(agency_id, short_name, long_name) values
         (1, 'ACME', 'Agency to Classify & Monitor Evildoers'),
@@ -155,3 +160,5 @@ delimiter ;
 insert into security_clearance values
 	(1, 'Secret'),
     (2, 'Top Secret');
+    
+    select * from location;
