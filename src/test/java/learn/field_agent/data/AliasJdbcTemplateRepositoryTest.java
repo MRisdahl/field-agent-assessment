@@ -32,9 +32,29 @@ class AliasJdbcTemplateRepositoryTest {
         Alias actual = repository.add(alias);
 
         assertNotNull(actual);
-        assertEquals(1, actual.getAliasId());
-
-
+        assertEquals(5, actual.getAliasId());
     }
+
+    @Test
+    void shouldUpdateExisting(){
+        Alias alias = new Alias();
+        alias.setAliasId(2);
+        alias.setName("george");
+        alias.setPersona("cook");
+        alias.setAgentId(1);
+
+        assertTrue(repository.update(alias));
+    }
+
+    @Test
+    void shouldNotUpdateMissing(){
+        Alias alias = new Alias();
+        alias.setName("george");
+        alias.setPersona("cook");
+        alias.setAgentId(1);
+
+        assertFalse(repository.update(alias));
+    }
+
 
 }

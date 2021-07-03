@@ -42,5 +42,20 @@ public class AliasJdbcTemplateRepository implements AliasRepository {
         return alias;
     }
 
+    @Override
+    public boolean update(Alias alias) {
+        final String sql = "update alias set "
+                + "name = ?, "
+                + "persona = ?, "
+                + "agent_id = ? "
+                + "where alias_id = ?;";
+
+        return jdbcTemplate.update(sql,
+                alias.getName(),
+                alias.getPersona(),
+                alias.getAgentId(),
+                alias.getAliasId()) > 0;
+    }
+
 
 }
