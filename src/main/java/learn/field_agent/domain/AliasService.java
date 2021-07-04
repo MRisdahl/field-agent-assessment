@@ -35,6 +35,29 @@ public class AliasService {
         return result;
     }
 
+    public Result<Alias> update(Alias alias) {
+        Result<Alias> result = validate(alias);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        if (alias.getAliasId() <= 0) {
+            result.addMessage("aliasId must be set for `update` operation", ResultType.INVALID);
+            return result;
+        }
+
+        if (!aliasRepository.update(alias)) {
+            String msg = String.format("aliasId: %s, not found", alias.getAliasId());
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+
+        return result;
+    }
+
+    public boolean deleteById(int aliasId) {
+        return aliasRepository.deleteById(aliasId);
+    }
+
     private Result<Alias> validate(Alias alias) {
         Result<Alias> result = new Result<>();
         if (alias == null) {

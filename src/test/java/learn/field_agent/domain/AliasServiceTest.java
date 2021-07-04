@@ -59,6 +59,32 @@ class AliasServiceTest {
         assertEquals(ResultType.SUCCESS, actual.getType());
         assertEquals(mockOut, actual.getPayload());
     }
+
+    @Test
+    void shouldNotUpdateWhenInvalid() {
+        Alias alias= makeAlias();
+        alias.setAliasId(1);
+        alias.setName("");
+        Result<Alias> actual = service.update(alias);
+        assertEquals(ResultType.INVALID, actual.getType());
+
+        alias = makeAlias();
+        alias.setName("Demolition Dan");
+        alias.setPersona("");
+        actual = service.update(alias);
+        assertEquals(ResultType.INVALID, actual.getType());
+    }
+
+    @Test
+    void shouldUpdate() {
+        Alias alias = makeAlias();
+        alias.setAliasId(1);
+
+        when(repository.update(alias)).thenReturn(true);
+
+        Result<Alias> actual = service.update(alias);
+        assertEquals(ResultType.SUCCESS, actual.getType());
+    }
     Alias makeAlias() {
         Alias alias = new Alias();
         alias.setName("jerry");
