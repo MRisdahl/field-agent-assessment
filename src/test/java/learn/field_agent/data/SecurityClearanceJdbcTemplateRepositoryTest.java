@@ -1,6 +1,7 @@
 package learn.field_agent.data;
 
 import learn.field_agent.models.Agent;
+import learn.field_agent.models.Alias;
 import learn.field_agent.models.SecurityClearance;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,5 +47,39 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
 
         actual = repository.findById(4);
         assertEquals(null, actual);
+    }
+
+    @Test
+    void shouldCreate(){
+        SecurityClearance securityClearance = new SecurityClearance();
+        securityClearance.setName("george");
+
+        SecurityClearance actual = repository.add(securityClearance);
+
+        assertNotNull(actual);
+        assertEquals(4, actual.getSecurityClearanceId());
+    }
+
+    @Test
+    void shouldUpdateExisting(){
+        SecurityClearance securityClearance = new SecurityClearance();
+        securityClearance.setSecurityClearanceId(2);
+        securityClearance.setName("george");
+
+        assertTrue(repository.update(securityClearance));
+    }
+
+    @Test
+    void shouldNotUpdateMissing(){
+        SecurityClearance securityClearance = new SecurityClearance();
+        securityClearance.setName("george");
+
+        assertFalse(repository.update(securityClearance));
+    }
+
+    @Test
+    void shouldDelete() {
+        assertTrue(repository.deleteById(2));
+        assertFalse(repository.deleteById(2));
     }
 }
