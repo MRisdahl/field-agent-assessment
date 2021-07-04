@@ -1,12 +1,15 @@
 package learn.field_agent.data;
 
+import learn.field_agent.models.Agent;
 import learn.field_agent.models.SecurityClearance;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class SecurityClearanceJdbcTemplateRepositoryTest {
@@ -23,6 +26,14 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     }
 
     @Test
+    void shouldFindAll() {
+        List<SecurityClearance> securityClearances = repository.findAll();
+        assertNotNull(securityClearances);
+
+        assertTrue(securityClearances.size() == 3);
+    }
+
+    @Test
     void shouldFindById() {
         SecurityClearance secret = new SecurityClearance(1, "Secret");
         SecurityClearance topSecret = new SecurityClearance(2, "Top Secret");
@@ -33,7 +44,7 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
         actual = repository.findById(2);
         assertEquals(topSecret, actual);
 
-        actual = repository.findById(3);
+        actual = repository.findById(4);
         assertEquals(null, actual);
     }
 }

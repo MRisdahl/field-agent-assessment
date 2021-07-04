@@ -100,10 +100,12 @@ delimiter //
 create procedure set_known_good_state()
 begin
 
-	
+ 	
 	delete from location;
     alter table location auto_increment = 1;
     delete from agency_agent;
+    delete from security_clearance;
+	alter table security_clearance auto_increment = 1;
 	delete from agency;
 	alter table agency auto_increment = 1;
     delete from alias;
@@ -112,7 +114,11 @@ begin
     alter table agent auto_increment = 1;
     
     
-    
+    insert into security_clearance(security_clearance_id, `name`) values
+		(1,'Secret'),
+		(2, 'Top Secret'),
+		(3, 'Super Secret');
+        
     insert into agency(agency_id, short_name, long_name) values
         (1, 'ACME', 'Agency to Classify & Monitor Evildoers'),
         (2, 'MASK', 'Mobile Armored Strike Kommand'),
@@ -138,6 +144,16 @@ begin
 		('Urban','H','Carwithen',null,58),
 		('Ulises','B','Muhammad','2008-04-01',80),
 		('Phylys','Y','Howitt','1979-03-28',68);
+        
+     insert into alias
+		(`name`, persona, agent_id)
+     values
+		('Demolition Dan', 'Construction Worker', 1),
+        ('Agent Danger', 'Sharp Shooter', 1),
+        ('Finn Storm', 'Weather Man', 2),
+        ('Dwayne Haymaker', 'Wrestler', 2 );
+        
+    
         
 	insert into agency_agent 
 		(agency_id, agent_id, identifier, security_clearance_id, activation_date)
