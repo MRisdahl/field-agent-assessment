@@ -1,13 +1,21 @@
 @url = http://localhost:8080/api/security-clearance
 
+// Get all security clearances
 GET {{url}} HTTP/1.1
 
 ###
 
+// Get a security clearance by ID
 GET {{url}}/1 HTTP/1.1
 
 ###
 
+// 404 security clearance not found
+GET {{url}}/10 HTTP/1.1
+
+###
+
+//Post a security clearance
 POST {{url}} HTTP/1.1
 Content-Type: application/json
 
@@ -18,19 +26,69 @@ Content-Type: application/json
 
 ###
 
-PUT {{url}}/4 HTTP/1.1
+//Post name required
+POST {{url}} HTTP/1.1
 Content-Type: application/json
 
 {
-    "securityClearanceId": 4,
+    "name": ""
+
+}
+
+###
+
+//Duplicate name not allowed
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Secret"
+
+}
+
+###
+
+//Put existing security clearance
+PUT {{url}}/5 HTTP/1.1
+Content-Type: application/json
+
+{
+    "securityClearanceId": 5,
     "name": "John"
 
 }
 
 ###
 
-DELETE {{url}}/4 HTTP/1.1
+//Put 404 name required
+PUT {{url}}/5 HTTP/1.1
+Content-Type: application/json
+
+{
+    "securityClearanceId": 5,
+    "name": ""
+
+}
 
 ###
 
+//create for delete ID: 6
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "super secret"
+
+}
+###
+
+// delete ID: 6
+DELETE {{url}}/6 HTTP/1.1
+
+###
+// delete security clearance in use
 DELETE {{url}}/1 HTTP/1.1
+
+###
+// delete security clearance not found
+DELETE {{url}}/15 HTTP/1.1

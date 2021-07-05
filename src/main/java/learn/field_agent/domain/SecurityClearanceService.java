@@ -61,6 +61,18 @@ public class SecurityClearanceService {
     public Result<SecurityClearance> deleteById(int securityClearanceId) {
         Result<SecurityClearance> result = new Result<>();
 
+        boolean status = false;
+        List<SecurityClearance> all = findAll();
+        for(SecurityClearance securityClearance: all){
+            if (securityClearance.getSecurityClearanceId() == securityClearanceId){
+                status = true;
+            }
+        }
+        if (!status){
+            String msg = String.format("SecurityClearanceId: %s, not found", securityClearanceId);
+            result.addMessage(msg, ResultType.NOT_FOUND);
+            return result;
+        }
         SecurityClearance securityClearance = repository.findById(securityClearanceId);
         List<AgencyAgent> list = securityClearance.getAgencyAgents();
 
@@ -69,10 +81,8 @@ public class SecurityClearanceService {
             return result;
         }
 
-        if(!repository.deleteById(securityClearanceId)){
-            String msg = String.format("SecurityClearanceId: %s, not found", securityClearanceId);
-            result.addMessage(msg, ResultType.NOT_FOUND);
-        };
+        repository.deleteById(securityClearanceId);
+
         return result;
     }
 
