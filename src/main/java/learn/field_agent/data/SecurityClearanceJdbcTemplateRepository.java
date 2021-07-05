@@ -90,9 +90,13 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
 
     private void addAgencyAgent(SecurityClearance securityClearance) {
 
-        final String sql = "select agency_id, agent_id, indentifier, security_clearance_id, activation_date, is_active "
-                + "from agency_agent "
-                + "where security_clearance_id = ?";
+        final String sql = "select aa.agency_id, aa.agent_id, aa.identifier, aa.activation_date, aa.is_active, "
+                + "sc.security_clearance_id, sc.name security_clearance_name, "
+                + "a.first_name, a.middle_name, a.last_name, a.dob, a.height_in_inches "
+                + "from agency_agent aa "
+                + "inner join agent a on aa.agent_id = a.agent_id "
+                + "inner join security_clearance sc on aa.security_clearance_id = sc.security_clearance_id "
+                + "where sc.security_clearance_id = ?;";
 
         var agencyAgents = jdbcTemplate.query(sql, new AgencyAgentMapper(), securityClearance.getSecurityClearanceId());
         securityClearance.setAgencyAgents(agencyAgents);
