@@ -43,10 +43,11 @@ public class AliasController {
     }
 
     @DeleteMapping("/{aliasId}")
-    public ResponseEntity<Void> deleteById(@PathVariable int aliasId) {
-        if (service.deleteById(aliasId)) {
+    public ResponseEntity<Object> deleteById(@PathVariable int aliasId) {
+        Result<Alias> result = service.deleteById(aliasId);
+        if (result.isSuccess()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ErrorResponse.build(result);
     }
 }

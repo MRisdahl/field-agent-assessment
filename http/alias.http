@@ -1,5 +1,11 @@
 @url = http://localhost:8080/api/alias
 
+// get agent with aliases attached
+GET http://localhost:8080/api/agent/1 HTTP/1.1
+
+### 
+
+// POST and alias
 POST {{url}} HTTP/1.1
 Content-Type: application/json
 
@@ -9,8 +15,21 @@ Content-Type: application/json
     "agentId": 1
 }
 
-###
+### 
 
+// POST 400 name required
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "",
+    "persona": "Student",
+    "agentId": 1
+}
+
+### 
+
+// POST 400 persona required if name is duplicated
 POST {{url}} HTTP/1.1
 Content-Type: application/json
 
@@ -20,12 +39,16 @@ Content-Type: application/json
     "agentId": 1
 }
 
+
+
 ###
-PUT {{url}}/1 HTTP/1.1
+
+// PUT an alias
+PUT {{url}}/5 HTTP/1.1
 Content-Type: application/json
 
 {
-    "aliasId": 1,
+    "aliasId": 5,
     "name": "John",
     "persona": "chef",
     "agentId": "2"
@@ -34,4 +57,36 @@ Content-Type: application/json
 
 ###
 
-DELETE {{url}}/1 HTTP/1.1
+// PUT an alias 400 name required
+PUT {{url}}/5 HTTP/1.1
+Content-Type: application/json
+
+{
+    "aliasId": 5,
+    "name": "",
+    "persona": "chef",
+    "agentId": "2"
+
+}
+
+###
+
+// POST an alias for delete aliasID: 6
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Chuck",
+    "persona": "Wrestler",
+    "agentId": 1
+}
+
+###
+
+// Delete by ID
+DELETE {{url}}/6 HTTP/1.1
+
+###
+
+// Delete by ID 404 alias not found
+DELETE {{url}}/15 HTTP/1.1

@@ -3,6 +3,7 @@ package learn.field_agent.domain;
 
 import learn.field_agent.data.AgentRepository;
 import learn.field_agent.data.AliasRepository;
+import learn.field_agent.models.Agency;
 import learn.field_agent.models.Agent;
 import learn.field_agent.models.Alias;
 import learn.field_agent.models.Location;
@@ -54,8 +55,13 @@ public class AliasService {
         return result;
     }
 
-    public boolean deleteById(int aliasId) {
-        return aliasRepository.deleteById(aliasId);
+    public Result<Alias> deleteById(int aliasId) {
+        Result<Alias> result = new Result<>();
+        if (!aliasRepository.deleteById(aliasId)) {
+            String msg = String.format("locationId: %s, not found", aliasId);
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+        return result;
     }
 
     private Result<Alias> validate(Alias alias) {
