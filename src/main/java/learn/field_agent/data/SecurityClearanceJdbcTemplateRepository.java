@@ -1,6 +1,8 @@
 package learn.field_agent.data;
 
+import learn.field_agent.data.mappers.AgencyAgentMapper;
 import learn.field_agent.data.mappers.AgentMapper;
+import learn.field_agent.data.mappers.AliasMapper;
 import learn.field_agent.data.mappers.SecurityClearanceMapper;
 import learn.field_agent.models.Agent;
 import learn.field_agent.models.Alias;
@@ -36,9 +38,16 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
                 + "from security_clearance "
                 + "where security_clearance_id = ?;";
 
-        return jdbcTemplate.query(sql, new SecurityClearanceMapper(), securityClearanceId)
+        SecurityClearance result = jdbcTemplate.query(sql, new SecurityClearanceMapper(), securityClearanceId)
                 .stream()
                 .findFirst().orElse(null);
+
+        if (result != null) {
+            addAgencyAgent(result);
+
+        }
+
+        return result;
     }
 
     @Override
@@ -77,5 +86,15 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
     public boolean deleteById(int securityClearanceId) {
         return jdbcTemplate.update(
                 "delete from security_clearance where security_clearance_id = ?", securityClearanceId) > 0;
+    }
+
+    private void addAgencyAgent(SecurityClearance securityClearance) {
+
+        final String sql = "select agency_id, agent_id, indentifier, security_clearance_id, activation_date, is_active "
+                + "from agency_agent "
+                + "where security_clearance_id = ?";
+
+        var agencyAgents = jdbcTemplate.query(sql, new AgencyAgentMapper(), securityClearance.getSecurityClearanceId());
+        securityClearance.setAgencyAgents(agencyAgents);
     }
 }
