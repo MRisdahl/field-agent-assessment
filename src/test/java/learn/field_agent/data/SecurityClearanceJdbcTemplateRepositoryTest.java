@@ -52,7 +52,7 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     @Test
     void shouldCreate(){
         SecurityClearance securityClearance = new SecurityClearance();
-        securityClearance.setName("george");
+        securityClearance.setName("steve");
 
         SecurityClearance actual = repository.add(securityClearance);
 
@@ -79,7 +79,7 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
 
     @Test
     void shouldDelete() {
-        assertTrue(repository.deleteById(2));
-        assertFalse(repository.deleteById(2));
+        assertTrue(repository.deleteById(3));
+        assertFalse(repository.deleteById(3));
     }
 }

@@ -108,10 +108,10 @@ begin
 	alter table security_clearance auto_increment = 1;
 	delete from agency;
 	alter table agency auto_increment = 1;
-    delete from alias;
-    alter table alias auto_increment = 1;
     delete from agent;
     alter table agent auto_increment = 1;
+    delete from alias;
+    alter table alias auto_increment = 1;
     
     
     insert into security_clearance(security_clearance_id, `name`) values

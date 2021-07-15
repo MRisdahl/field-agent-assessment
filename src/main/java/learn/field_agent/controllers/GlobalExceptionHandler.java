@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> dataIntegrityException(DataIntegrityViolationException ex) {
         return new ResponseEntity<>(
                 new ErrorResponse("Data Integrity Failure"),
-                HttpStatus.CONFLICT);
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
