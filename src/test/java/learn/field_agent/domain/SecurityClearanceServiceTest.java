@@ -75,6 +75,20 @@ class SecurityClearanceServiceTest {
         assertEquals(ResultType.SUCCESS, actual.getType());
     }
 
+    @Test
+    void shouldDelete() {
+        when(repository.deleteById(3)).thenReturn(true);
+        Result<SecurityClearance> actual = service.deleteById(3);
+        assertEquals(ResultType.SUCCESS, actual.getType());
+    }
+
+    @Test
+    void shouldNotDelete() {
+        when(repository.deleteById(99)).thenReturn(false);
+        Result<SecurityClearance> actual = service.deleteById(99);
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
+    }
+
     SecurityClearance makeSecurityClearance() {
         SecurityClearance securityClearance = new SecurityClearance();
         securityClearance.setName("Classified");

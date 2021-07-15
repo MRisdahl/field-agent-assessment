@@ -85,6 +85,21 @@ class AliasServiceTest {
         Result<Alias> actual = service.update(alias);
         assertEquals(ResultType.SUCCESS, actual.getType());
     }
+
+    @Test
+    void shouldDelete() {
+        when(repository.deleteById(3)).thenReturn(true);
+        Result<Alias> actual = service.deleteById(3);
+        assertEquals(ResultType.SUCCESS, actual.getType());
+    }
+
+    @Test
+    void shouldNotDelete() {
+        when(repository.deleteById(99)).thenReturn(false);
+        Result<Alias> actual = service.deleteById(99);
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
+    }
+
     Alias makeAlias() {
         Alias alias = new Alias();
         alias.setName("jerry");
