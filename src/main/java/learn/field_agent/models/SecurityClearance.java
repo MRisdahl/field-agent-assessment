@@ -1,11 +1,15 @@
 package learn.field_agent.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class SecurityClearance {
 
     private int securityClearanceId;
     private String name;
+    private List<AgencyAgent> agencyAgents = new ArrayList<>();
+
 
     public int getSecurityClearanceId() {
         return securityClearanceId;
@@ -30,6 +34,15 @@ public class SecurityClearance {
         this.securityClearanceId = securityClearanceId;
         this.name = name;
     }
+
+    public List<AgencyAgent> getAgencyAgents() {
+        return agencyAgents;
+    }
+
+    public void setAgencyAgents(List<AgencyAgent> agencyAgents) {
+        this.agencyAgents = agencyAgents;
+    }
+
 
     @Override
     public boolean equals(Object o) {
